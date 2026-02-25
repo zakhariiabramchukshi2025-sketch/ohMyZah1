@@ -26,7 +26,7 @@ using std::vector;
 
 
 
-void appendToFile(string text, string fileName = "./files/command_log.txt") {
+void appendToFile(string text, string fileName = "./logs/command_log.txt") {
     std::ofstream outFile;
     
     outFile.open(fileName, std::ios::app);
@@ -40,7 +40,7 @@ void appendToFile(string text, string fileName = "./files/command_log.txt") {
 }
 
 
-void readFromFile(std::string fileName = "/Users/zaharii/Work_projects/Losted/other/nulp/testing_comand_line_cpp/command_log.txt") {
+void readFromFile(std::string fileName = "./logs/command_log.txt") {
     std::ifstream inFile(fileName);
 
         if (inFile.is_open()) {
