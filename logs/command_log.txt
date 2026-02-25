@@ -8,3 +8,4 @@ cd teka_2
 q!
 hello world
 q!
+q!

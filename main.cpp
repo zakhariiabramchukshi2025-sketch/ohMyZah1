@@ -164,7 +164,7 @@ void tabAutocomplite(string& currentInput) {
 
 
 void enterPressed(string currentInput) {
-    system::visualAlert();
+    system_func::visualAlert();
     
     if (currentInput == "") return;
     
@@ -181,7 +181,7 @@ void enterPressed(string currentInput) {
     }
     
     if (currentInput == "pwd") {
-        std::cout << system::get_path_manual(1) << std::flush;
+        std::cout << system_func::get_path_manual(1) << std::flush;
         return;
     }
     
@@ -202,14 +202,14 @@ void enterPressed(string currentInput) {
 
 string readLine(string prompt) {
     string userInputBuffer = "";
-    string path = system::get_path_manual();
+    string path = system_func::get_path_manual();
 
     cout << prompt << flush;
 
     while (true) {
         int k = getRawKey();
 
-//        system::systemAlert("FUCK YEAH IT WORKS", k);
+//        system_func::systemAlert("FUCK YEAH IT WORKS", k);
         
         if (k == 27 || k == 32539) {
             int next1 = getRawKey();
@@ -254,7 +254,7 @@ int main() {
     ui::intro();
 
     while (true) {
-        string input = readLine(ui::YELLOW + "-> " + ui::CYAN + system::get_path_manual() + ui::YELLOW + " > " + ui::RESET);
+        string input = readLine(ui::YELLOW + "-> " + ui::CYAN + system_func::get_path_manual() + ui::YELLOW + " > " + ui::RESET);
 
         if (input == "exit" || checkForSpecials(input) == 1) {
             break;
