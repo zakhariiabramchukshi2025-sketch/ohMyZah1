@@ -26,34 +26,29 @@ using std::vector;
 
 
 
-void appendToFile(string text, string fileName = "/Users/zaharii/Work_projects/Losted/other/nulp/testing_comand_line_cpp/command_log.txt") {
+void appendToFile(string text, string fileName = "./files/command_log.txt") {
     std::ofstream outFile;
     
     outFile.open(fileName, std::ios::app);
 
     if (outFile.is_open()) {
         outFile << text << std::endl;
-        outFile.close(); // Завжди закривай файл
+        outFile.close();
     } else {
-        std::cerr << "Помилка відкриття файлу!" << std::endl;
+        std::cerr << "File opening error!" << std::endl;
     }
 }
 
 
 void readFromFile(std::string fileName = "/Users/zaharii/Work_projects/Losted/other/nulp/testing_comand_line_cpp/command_log.txt") {
-    std::ifstream inFile(fileName); // Відкриваємо для читання
+    std::ifstream inFile(fileName);
 
         if (inFile.is_open()) {
             std::string line;
-            while (std::getline(inFile, line)) {
-                cout << line  << "\n" << flush;
-
-            }
+            while (std::getline(inFile, line)) cout << line  << "\n" << flush;
             inFile.close();
-        } else {
-            cout << "\n" << "file is not found" << flush;
-
         }
+        else cout << "\n" << "file is not found" << flush;
 }
 
     
