@@ -1,5 +1,6 @@
 #import  "../includes/input_config.hpp"
 
+#include <iostream>
 
 #include <termios.h>
 #include <unistd.h>
@@ -7,7 +8,8 @@
 #include <sys/utsname.h> // get devices info
 #include <sys/sysctl.h>
 
-
+using std::string;
+using std::cout;
 
 int getRawKey() {
 //#ifdef _WIN32
