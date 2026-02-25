@@ -10,12 +10,12 @@
 #include "engine/system_requirements/includes/namespaces.hpp" // for namespaces
 
 
-    #include <termios.h>
-    #include <unistd.h>
+#include <termios.h>
+#include <unistd.h>
 
 
-    #include <sys/utsname.h> // get devices info
-    #include <sys/sysctl.h>
+#include <sys/utsname.h> // get devices info
+#include <sys/sysctl.h>
 
 using std::cout;
 using std::cin;
@@ -26,42 +26,8 @@ using std::vector;
 
 
 
-
-//namespace file_system {
-//
-//
-//    void appendToFile(string text, string fileName = "./logs/command_log.txt") {
-//        std::ofstream outFile;
-//
-//        outFile.open(fileName, std::ios::app);
-//
-//        if (outFile.is_open()) {
-//            outFile << text << std::endl;
-//            outFile.close();
-//        } else {
-//            std::cerr << "File opening error!" << std::endl;
-//        }
-//    }
-//
-//
-//    void readFromFile(std::string fileName = "./logs/command_log.txt") {
-//        std::ifstream inFile(fileName);
-//
-//        if (inFile.is_open()) {
-//            std::string line;
-//            while (std::getline(inFile, line)) cout << line  << "\n" << flush;
-//            inFile.close();
-//        }
-//        else cout << "\n" << "file is not found" << flush;
-//    }
-//
-//};
-
-
-
-
 void visualAlert() {
-    // Включаємо інверсію всього екрану на мить
+    
     cout << "\033[?5h" << flush;
     usleep(100000); // пауза 0.1 сек (потрібен #include <unistd.h>)
     // Вимикаємо інверсію
@@ -224,13 +190,7 @@ void tabAutocomplite(string& currentInput) {
             selected = (selected + 1) % options.size();
         }
         
-        
-//        else if (k == 27) { // ESC - якщо юзер передумав вибирати
-//            cout << "\n\033[K" << flush; // clearing the line under main line
-//            cout << "\033[A" << flush;    // getting back on the main line
-//            cout << ui::BLUE << "FUUUUUUUUUUUUUUUUUUH"  << ui::RESET << flush;    // getting back on the main line
-//            break;
-//        }
+
         
         else if (k == 27 || k == 32539) {
             int next1 = getRawKey();
@@ -367,108 +327,3 @@ int main() {
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//std::system("afplay /System/Library/Sounds/Bottle.aiff &");
-//system("afplay /System/Library/Sounds/Basso.aiff &")Глибокий глухий звук (помилка)
-//system("afplay /System/Library/Sounds/Blow.aiff &")Звук видування повітря
-//system("afplay /System/Library/Sounds/Bottle.aiff &")Дзвінкий звук пляшки
-//system("afplay /System/Library/Sounds/Frog.aiff &")Квакання (смішно для помилок)
-//system("afplay /System/Library/Sounds/Funk.aiff &")Стандартний фанк-клік
-//system("afplay /System/Library/Sounds/Hero.aiff &")Тріумфальний звук (успіх команди)
-//system("afplay /System/Library/Sounds/Morse.aiff &")Азбука Морзе
-
-
-
-
-
-
-
-
-
-
-
-
-
-//int main() {
-//    ui::intro();
-//
-//
-//    string path = get_path_manual();
-//
-//
-//    string userInputBuffer = "";
-//
-//
-//    while (true) {
-//        int k = getRawKey();
-//
-//
-//
-//        if (k == 27 || k == 32539) { // Початок ESC-послідовності
-//            int next1 = getRawKey();
-//            int next2 = getRawKey();
-//            if (next1 == 91 || next1 == 32603 ) {
-//                if (next2 == 65 || next2 == 32577) cout << "[UP ARROW]\n";
-//                if (next2 == 66 || next2 == 32578) cout << "[DOWN ARROW]\n";
-//                if (next2 == 67 || next2 == 32579) cout << "[RIGHT ARROW]\n";
-//                if (next2 == 68 || next2 == 32580) cout << "[LEFT ARROW]\n";
-//            }
-//        }
-//        else if (k == 9 || k == 32521) {
-//            cout << "[TAB]\n";
-//            cout << "\t1) HELL WORLD " << path << "\n";
-//            cout << "\t2) HELL WORLD2\n";
-//            cout << "\t3) HELL WORLD3\n";
-//            cout << "\t4) HELL WORLD4\n";
-//            testOfFunc();
-//            cout << "\n";
-//        }
-//
-//        else if (k == 10 || k == 13 || k == 32522) {
-//            cout << "[Enter]\n";
-//            youEnteredFunc(userInputBuffer);
-//            if (checkForSpecials(userInputBuffer) == 1) break;
-//            if (checkForSpecials(userInputBuffer) == 2) {
-//                cout << "admin rights is yours master\n";
-//            }
-//            cout << ">>> ";
-//
-//
-//            userInputBuffer = "";
-//
-//        }
-//
-//        else if (k == 127 || k == 8 || k == 32639) {
-//            //            cout << "[Backspace]";
-//            if (!userInputBuffer.empty()) {
-//                userInputBuffer.pop_back();
-//            }
-//
-//            cout << "\b \b" << flush;
-//        }
-//
-//        else if (k >= 32 && k <= 126){
-////            cout << "Key pressed: " << (char)k << " (code: " << k << ")";
-//            userInputBuffer += (char)k;
-//            cout << (char)k << flush;
-////            cout << k;
-//
-//        }
-//    }
-//
-//    return 0;
-//}
