@@ -26,29 +26,6 @@ using std::vector;
 
 
 
-void visualAlert() {
-    
-    cout << "\033[?5h" << flush;
-    usleep(100000); // пауза 0.1 сек (потрібен #include <unistd.h>)
-    // Вимикаємо інверсію
-    cout << "\033[?5l" << flush;
-}
-
-void systemAlert(string title, string message) {
-    string cmd = "osascript -e 'display alert \"" + title + "\" message \"" + message + "\"' &";
-    system(cmd.c_str());
-}
-
-
-void systemAlert(string title, int message) {
-    string cmd = "osascript -e 'display alert \"" + title + "\" message \"" + std::to_string(message) + "\"' &";
-    system(cmd.c_str());
-}
-
-
-
-
-
 string trim(const string s) {
     size_t first = s.find_first_not_of(" \t\n\r");
     
@@ -63,40 +40,6 @@ string trim(const string s) {
 
 
 
-
-
-string get_path_manual(bool full = false) {
-    string path = "";
-    
-    #ifdef _WIN32
-        char buffer[MAX_PATH];
-        if (GetCurrentDirectory(MAX_PATH, buffer)) {
-            path = std::string(buffer);
-        } else {
-            return "error";
-        }
-        char sep = '\\';
-    #else
-        char temp[1024];
-        if (getcwd(temp, sizeof(temp)) != nullptr) {
-            path = std::string(temp);
-        } else {
-            return "error";
-        }
-        char sep = '/'; // Роздільник для Unix (Mac)
-    #endif
-
-    if (!full) {
-        size_t lastSlash = path.find_last_of(sep);
-        
-        // Перевіряємо, чи це не корінь (наприклад, "/" на Mac або "C:\" на Win)
-        if (lastSlash != std::string::npos && lastSlash != path.length() - 1) {
-            return path.substr(lastSlash + 1);
-        }
-    }
-
-    return path;
-}
 
 
 
@@ -221,7 +164,7 @@ void tabAutocomplite(string& currentInput) {
 
 
 void enterPressed(string currentInput) {
-    visualAlert();
+    system::visualAlert();
     
     if (currentInput == "") return;
     
@@ -238,7 +181,7 @@ void enterPressed(string currentInput) {
     }
     
     if (currentInput == "pwd") {
-        std::cout << get_path_manual(1) << std::flush;
+        std::cout << system::get_path_manual(1) << std::flush;
         return;
     }
     
@@ -259,14 +202,14 @@ void enterPressed(string currentInput) {
 
 string readLine(string prompt) {
     string userInputBuffer = "";
-    string path = get_path_manual();
+    string path = system::get_path_manual();
 
     cout << prompt << flush;
 
     while (true) {
         int k = getRawKey();
 
-//        systemAlert("FUCK YEAH IT WORKS", k);
+//        system::systemAlert("FUCK YEAH IT WORKS", k);
         
         if (k == 27 || k == 32539) {
             int next1 = getRawKey();
@@ -311,7 +254,7 @@ int main() {
     ui::intro();
 
     while (true) {
-        string input = readLine(ui::YELLOW + "-> " + ui::CYAN + get_path_manual() + ui::YELLOW + " > " + ui::RESET);
+        string input = readLine(ui::YELLOW + "-> " + ui::CYAN + system::get_path_manual() + ui::YELLOW + " > " + ui::RESET);
 
         if (input == "exit" || checkForSpecials(input) == 1) {
             break;

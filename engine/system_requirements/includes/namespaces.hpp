@@ -53,3 +53,17 @@ namespace file_system {
 
 };
 
+
+
+namespace system {
+    using std::string;
+
+        
+    void visualAlert();
+
+    void systemAlert(string title, string message);
+
+    void systemAlert(string title, int message);
+
+    string get_path_manual(bool full = false);
+};

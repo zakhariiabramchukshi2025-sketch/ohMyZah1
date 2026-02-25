@@ -119,3 +119,55 @@ namespace file_system {
     }
 
 };
+
+
+
+
+
+namespace system {
+    using std::cout;
+    using std::flush;
+    using std::string;
+
+        
+    void visualAlert() {
+        cout << "\033[?5h" << flush;
+        usleep(100000);
+        cout << "\033[?5l" << flush;
+    }
+
+    void systemAlert(string title, string message) {
+        string cmd = "osascript -e 'display alert \"" + title + "\" message \"" + message + "\"' &";
+        system(cmd.c_str());
+    }
+
+
+    void systemAlert(string title, int message) {
+        string cmd = "osascript -e 'display alert \"" + title + "\" message \"" + std::to_string(message) + "\"' &";
+        system(cmd.c_str());
+    }
+
+
+    string get_path_manual(bool full) {
+        string path = "";
+
+        char temp[1024];
+        if (getcwd(temp, sizeof(temp)) != nullptr) {
+            path = std::string(temp);
+        } else {
+            return "error";
+        }
+        char sep = '/'; // for UNIX (mac is UNIX based system)
+
+        if (!full) {
+            size_t lastSlash = path.find_last_of(sep);
+            
+            if (lastSlash != std::string::npos && lastSlash != path.length() - 1) {
+                return path.substr(lastSlash + 1);
+            }
+        }
+        
+        return path;
+    }
+    
+};
