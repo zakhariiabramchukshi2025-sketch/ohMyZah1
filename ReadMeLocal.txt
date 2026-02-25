@@ -46,6 +46,19 @@ This project is a multifunctional c++ based console program for ZSH (+bash and p
 
 
 
+.
+├── README.md
+├── ReadMeLocal.txt
+├── engine
+│   └── system_requirements
+│       ├── includes
+│       │   ├── input_config.hpp
+│       │   └── namespaces.hpp
+│       └── src
+│           ├── input_config.cpp
+│           └── namespaces.cpp
+├── main.cpp
+└── my_shell
 
 
 
