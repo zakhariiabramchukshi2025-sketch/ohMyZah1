@@ -86,8 +86,6 @@ void tabAutocomplite(string& currentInput) {
     
     
     
-    
-    
     int selected = 0; // selected by user index
     
     while (true) {
@@ -138,14 +136,15 @@ void tabAutocomplite(string& currentInput) {
 
 
 
-void enterPressed(string currentInput) {
+void enterPressed(string currentInput) { // TODO: define all of the commands functional as funcs and not in this function
     system_func::visualAlert();
+//    system_func::systemAlert("title", "enter");
     
     if (currentInput == "") return;
     
     file_system::appendToFile(currentInput);
     
-    if (currentInput == "q!") return;
+    if (currentInput == "q!") return; // skiping beta line, TODO: change to a list of commands check
     if (currentInput == "a!") return;
     
     if (currentInput == "-h") file_system::readFromFile();
@@ -162,15 +161,9 @@ void enterPressed(string currentInput) {
     
     
     
-    cout << "ERROR: " << currentInput << " is not defined as command\n";
+    cout << "ERROR: " << currentInput << " is not defined as command\n"; // literaly anything
     
 }
-
-
-
-
-
-
 
 
 
@@ -183,8 +176,6 @@ string readLine(string prompt) {
 
     while (true) {
         int k = getRawKey();
-
-//        system_func::systemAlert("FUCK YEAH IT WORKS", k);
         
         if (k == 27 || k == 32539) {
             int next1 = getRawKey();
@@ -228,7 +219,7 @@ string readLine(string prompt) {
 int main() {
     ui::intro();
 
-    while (true) {
+    while (true) { // realy bad piece of code TODO: chane this to something more universal
         string input = readLine(ui::YELLOW + "-> " + ui::CYAN + system_func::get_path_manual() + ui::YELLOW + " > " + ui::RESET);
 
         if (input == "exit" || checkForSpecials(input) == 1) {

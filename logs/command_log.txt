@@ -11,3 +11,11 @@ q!
 q!
 iuwfhdj
 q!
+exit
+q!
+q!
+d
+exit
+exit
+exit
+q!
