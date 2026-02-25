@@ -29,3 +29,17 @@ int getRawKey() {
 //#endif
 }
 
+
+
+int checkForSpecials(string userInput) {
+    if (userInput == "q!") return 1;
+    if (userInput == "a!") return 2;
+    return 0;
+}
+
+
+
+void youEnteredFunc(string userInput) {
+    if (userInput == "") return;
+    cout << "\nYou've entered: " << userInput << "\n";
+}

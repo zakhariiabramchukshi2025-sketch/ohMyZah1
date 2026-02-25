@@ -41,31 +41,6 @@ string trim(const string s) {
 
 
 
-
-
-
-
-
-
-
-void testOfFunc() {
-    cout << "YO MAN THIS IS CRAZY!!!";
-}
-
-int checkForSpecials(string userInput) {
-    if (userInput == "q!") return 1;
-    if (userInput == "a!") return 2;
-    return 0;
-}
-
-void youEnteredFunc(string userInput) {
-    if (userInput == "") return;
-    cout << "\nВи ввели: " << userInput << "\n";
-}
-
-
-
-
 void tabAutocomplite(string& currentInput) {
     if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "") {
         cout << "\n[No suggestions]" << flush;
