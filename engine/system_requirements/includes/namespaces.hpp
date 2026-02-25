@@ -41,3 +41,15 @@ namespace ui {
 
     void intro();
 };
+
+
+
+namespace file_system {
+    using std::string;
+
+
+    void appendToFile(string text, string fileName = "./logs/command_log.txt");
+    void readFromFile(std::string fileName = "./logs/command_log.txt");
+
+};
+

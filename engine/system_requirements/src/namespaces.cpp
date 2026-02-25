@@ -83,3 +83,39 @@ namespace ui {
         cout << "\n\n";
     }
 };
+
+
+
+
+
+namespace file_system {
+    using std::string;
+    using std::flush;
+    using std::cout;
+
+    void appendToFile(string text, string fileName) {
+        std::ofstream outFile;
+        
+        outFile.open(fileName, std::ios::app);
+        
+        if (outFile.is_open()) {
+            outFile << text << std::endl;
+            outFile.close();
+        } else {
+            std::cerr << "File opening error!" << std::endl;
+        }
+    }
+
+
+    void readFromFile(std::string fileName) {
+        std::ifstream inFile(fileName);
+        
+        if (inFile.is_open()) {
+            std::string line;
+            while (std::getline(inFile, line)) cout << line  << "\n" << flush;
+            inFile.close();
+        }
+        else cout << "\n" << "file is not found" << flush;
+    }
+
+};

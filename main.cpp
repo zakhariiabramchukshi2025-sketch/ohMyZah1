@@ -26,42 +26,36 @@ using std::vector;
 
 
 
-void appendToFile(string text, string fileName = "./logs/command_log.txt") {
-    std::ofstream outFile;
-    
-    outFile.open(fileName, std::ios::app);
 
-    if (outFile.is_open()) {
-        outFile << text << std::endl;
-        outFile.close();
-    } else {
-        std::cerr << "File opening error!" << std::endl;
-    }
-}
-
-
-void readFromFile(std::string fileName = "./logs/command_log.txt") {
-    std::ifstream inFile(fileName);
-
-        if (inFile.is_open()) {
-            std::string line;
-            while (std::getline(inFile, line)) cout << line  << "\n" << flush;
-            inFile.close();
-        }
-        else cout << "\n" << "file is not found" << flush;
-}
-
-    
-        
-        
-    
-        
-    
-
-
-
-
-
+//namespace file_system {
+//
+//
+//    void appendToFile(string text, string fileName = "./logs/command_log.txt") {
+//        std::ofstream outFile;
+//
+//        outFile.open(fileName, std::ios::app);
+//
+//        if (outFile.is_open()) {
+//            outFile << text << std::endl;
+//            outFile.close();
+//        } else {
+//            std::cerr << "File opening error!" << std::endl;
+//        }
+//    }
+//
+//
+//    void readFromFile(std::string fileName = "./logs/command_log.txt") {
+//        std::ifstream inFile(fileName);
+//
+//        if (inFile.is_open()) {
+//            std::string line;
+//            while (std::getline(inFile, line)) cout << line  << "\n" << flush;
+//            inFile.close();
+//        }
+//        else cout << "\n" << "file is not found" << flush;
+//    }
+//
+//};
 
 
 
@@ -271,12 +265,12 @@ void enterPressed(string currentInput) {
     
     if (currentInput == "") return;
     
-    appendToFile(currentInput);
+    file_system::appendToFile(currentInput);
     
     if (currentInput == "q!") return;
     if (currentInput == "a!") return;
     
-    if (currentInput == "-h") readFromFile();
+    if (currentInput == "-h") file_system::readFromFile();
 
     if (currentInput == "clear") {
         std::cout << "\033[2J\033[H" << std::flush;
