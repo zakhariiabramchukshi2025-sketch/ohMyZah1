@@ -19,3 +19,7 @@ exit
 exit
 exit
 q!
+q!
+hello world 
+hello
+exit

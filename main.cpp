@@ -138,7 +138,6 @@ void tabAutocomplite(string& currentInput) {
 
 void enterPressed(string currentInput) { // TODO: define all of the commands functional as funcs and not in this function
     system_func::visualAlert();
-//    system_func::systemAlert("title", "enter");
     
     if (currentInput == "") return;
     
@@ -187,10 +186,8 @@ string readLine(string prompt) {
                 if (next2 == 68 || next2 == 32580) cout << "[LEFT ARROW]\n";
             }
         }
-        else if (k == 9 || k == 32521) {
-//            cout << "[TAB]\n";
+        else if (k == 9 || k == 32521) { // TAB
             tabAutocomplite(userInputBuffer);
-//            testOfFunc();
             cout << "\n" << prompt << userInputBuffer << flush;
         }
     
