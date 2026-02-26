@@ -28,3 +28,10 @@ open main.cpp
 q!
 command option_2 
 q!
+hello
+hello he
+command option_2
+command option_2
+command option_2
+clear
+q!

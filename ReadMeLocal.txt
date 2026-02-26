@@ -64,3 +64,16 @@ This project is a multifunctional c++ based console program for ZSH (+bash and p
 
 
 ====
+
+
+
+
+string trim(const string s) {
+    size_t first = s.find_first_not_of(" \t\n\r");
+    
+    if (first == string::npos) return "";
+    
+    size_t last = s.find_last_not_of(" \t\n\r");
+
+    return s.substr(first, (last - first + 1));
+}
