@@ -23,3 +23,8 @@ q!
 hello world 
 hello
 exit
+pyvo --update 
+open main.cpp
+q!
+command option_2 
+q!
