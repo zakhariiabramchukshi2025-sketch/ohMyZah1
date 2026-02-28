@@ -42,3 +42,7 @@ iot setup
 ll
 clear
 q!
+iot tv 
+iot lock 
+iot turn_on_all
+q!

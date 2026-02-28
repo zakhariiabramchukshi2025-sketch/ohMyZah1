@@ -8,6 +8,8 @@
                  
 #include "engine/system_requirements/includes/input_config.hpp" // input reading part
 #include "engine/system_requirements/includes/namespaces.hpp" // for namespaces
+#include "engine/system_requirements/includes/command_dict.hpp" // for command tree
+#include "engine/classes/includes/iot_manager.hpp" // for
 
 
 #include <termios.h>
@@ -28,56 +30,75 @@ using std::vector;
 
 
 void tabAutocomplite(string& currentInput) {
+    string cleanedInput = trim(currentInput);
+    vector <string> options;
+    
+    // =======================================================
+    // МАГІЯ ХЕШ-ТАБЛИЦІ (O(1) швидкість)
+    // =======================================================
+    auto it = cmd_dict::tree.find(cleanedInput);
+    
+    if (it != cmd_dict::tree.end()) {
+        options = it->second;
+    } else {
+        cout << "\n[No suggestions]" << flush;
+        std::cout << "\a" << std::flush; // alert sound
+        return;
+    }
+    
+    
+    
     if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "iot" && trim(currentInput) != "") { // TODO: check for the whole list
         cout << "\n[No suggestions]" << flush;
         std::cout << "\a" << std::flush; // alert sound
         return;
     }
 
+    
 
-    vector<string> options; // tmp for parameters and arguments, in future - every class will have it's own list or maybee even tabAutocomplete method TODO: global vector
-    
-    if (trim(currentInput) == "command") {
-        options.push_back("option_1");
-        options.push_back("option_2");
-        options.push_back("option_2");
-        options.push_back("option_233");
-        
-    }
-    
-    else if (trim(currentInput) == "pyvo") {
-        options.push_back("info");
-        options.push_back("--version");
-        options.push_back("--update");
-        options.push_back("--upgrade");
-        
-    }
-    
-    else if (trim(currentInput) == "cd") {
-        options.push_back("teka_1");
-        options.push_back("teka_2");
-        options.push_back("teka_3");
-        options.push_back("teka_4");
-        options.push_back("teka_5");
-        options.push_back("teka_6");
-        options.push_back("teka_7");
-        options.push_back("teka_8");
-    }
-    
-    else if (trim(currentInput) == "iot") {
-            options.push_back("setup");
-            options.push_back("info");
-            options.push_back("turn_on");
-    }
-
-    if (trim(currentInput) == "") {
-        options.push_back("command");
-        options.push_back("pyvo");
-        options.push_back("cd");
-        options.push_back("iot");
-    }
-    
-    
+//    vector<string> options; // tmp for parameters and arguments, in future - every class will have it's own list or maybee even tabAutocomplete method TODO: global vector
+//
+//    if (trim(currentInput) == "command") {
+//        options.push_back("option_1");
+//        options.push_back("option_2");
+//        options.push_back("option_2");
+//        options.push_back("option_233");
+//
+//    }
+//
+//    else if (trim(currentInput) == "pyvo") {
+//        options.push_back("info");
+//        options.push_back("--version");
+//        options.push_back("--update");
+//        options.push_back("--upgrade");
+//
+//    }
+//
+//    else if (trim(currentInput) == "cd") {
+//        options.push_back("teka_1");
+//        options.push_back("teka_2");
+//        options.push_back("teka_3");
+//        options.push_back("teka_4");
+//        options.push_back("teka_5");
+//        options.push_back("teka_6");
+//        options.push_back("teka_7");
+//        options.push_back("teka_8");
+//    }
+//
+//    else if (trim(currentInput) == "iot") {
+//            options.push_back("setup");
+//            options.push_back("info");
+//            options.push_back("turn_on");
+//    }
+//
+//    if (trim(currentInput) == "") {
+//        options.push_back("command");
+//        options.push_back("pyvo");
+//        options.push_back("cd");
+//        options.push_back("iot");
+//    }
+//
+//
     int selected = 0; // selected by user index
     
     while (true) {

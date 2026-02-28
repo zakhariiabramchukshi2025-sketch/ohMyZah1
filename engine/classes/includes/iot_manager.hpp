@@ -2,8 +2,23 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <iostream>
+#include <arpa/inet.h>
+#include <iomanip>
+#include <limits>
+#include <thread>
+#include <chrono>
+#include <stdexcept>
+#include <optional>
 
-#inculde "./../../system_requirements/includes.hpp"
+
+
+#include "../../system_requirements/includes/namespaces.hpp"
+
+
+
+using std::optional;
+using std::nullopt;
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

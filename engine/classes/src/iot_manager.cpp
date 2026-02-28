@@ -1,11 +1,5 @@
-#include "../includes/iot_devices.hpp"
-#include <iostream>
-#include <arpa/inet.h>
-#include <iomanip>
-#include <limits>
-#include <thread>
-#include <chrono>
-#include <stdexcept>
+#include "../includes/iot_manager.hpp"
+
 
 using std::cout;
 using std::cin;
@@ -206,46 +200,46 @@ void Device::interactive_setup() {
     }
 }
 
-void Device::connect() { cout << BLUE << "[Device]" << RESET << " connected throught usual portal...\n"; }
-void Device::connect(const string& specific_ip) { cout << BLUE << "[Device]" << RESET << "  connected to " << specific_ip << "...\n"; }
-void Device::turn_on() { cout << BLUE << "[Device]" << RESET << "  power is on.\n"; }
-void Device::turn_off() { cout << BLUE << "[Device]" << RESET << "  power is off.\n"; }
-void Device::diagnostic() const { cout << BLUE << "[Device]" << RESET << "  Base diagnostic:\n| Battery level: " << battery_level_ << "%\n"; }
+void Device::connect() { cout <<  ui::BLUE << "[Device]" <<  ui::RESET << " connected throught usual portal...\n"; }
+void Device::connect(const string& specific_ip) { cout <<  ui::BLUE << "[Device]" <<  ui::RESET << "  connected to " << specific_ip << "...\n"; }
+void Device::turn_on() { cout <<  ui::BLUE << "[Device]" <<  ui::RESET << "  power is on.\n"; }
+void Device::turn_off() { cout <<  ui::BLUE << "[Device]" <<  ui::RESET << "  power is off.\n"; }
+void Device::diagnostic() const { cout <<  ui::BLUE << "[Device]" <<  ui::RESET << "  Base diagnostic:\n| Battery level: " << battery_level_ << "%\n"; }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~DEVICESS~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 void SecurityCamera::turn_on() {
-    cout << RED << "[SecurityCamera]" << RESET << "  Calibrating.." << BLINK << ".\n" << RESET;
+    cout <<  ui::RED << "[SecurityCamera]" <<  ui::RESET << "  Calibrating.." <<  ui::BLINK << ".\n" <<  ui::RESET;
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
-    cout << RED << "[SecurityCamera]" << RESET << "  Connected\n";
+    cout <<  ui::RED << "[SecurityCamera]" <<  ui::RESET << "  Connected\n";
 }
-void SecurityCamera::start_stream() { cout << RED << "[SecurityCamera]" << RESET << "  Translation will be avaiable soon!\n"; }
-void SecurityCamera::take_photo() { cout << RED << "[SecurityCamera]" << RESET << "  *SNAP* Photo taken!\n"; }
+void SecurityCamera::start_stream() { cout <<  ui::RED << "[SecurityCamera]" <<  ui::RESET << "  Translation will be avaiable soon!\n"; }
+void SecurityCamera::take_photo() { cout <<  ui::RED << "[SecurityCamera]" <<  ui::RESET << "  *SNAP* Photo taken!\n"; }
 void SecurityCamera::toggle_night_vision() {
     night_vision_active_ = !night_vision_active_;
-    cout << RED << "[SecurityCamera]" << RESET << "  Night vision: " << (night_vision_active_ ? "ON" : "OFF") << "\n";
+    cout <<  ui::RED << "[SecurityCamera]" <<  ui::RESET << "  Night vision: " << (night_vision_active_ ? "ON" : "OFF") << "\n";
 }
 
-void TV::turn_on() { cout << RED << "[TV]" << RESET << " , loading WebOS.." << BLINK << ".\n" << RESET; }
-void TV::diagnostic() const { cout << RED << "[TV]" << RESET<< "  Base diagnostic:\n| Battery level: " << battery_level_ << "%\n" << "| Channel: " << current_channel_ << "\n"; }
+void TV::turn_on() { cout <<  ui::RED << "[TV]" <<  ui::RESET << " , loading WebOS.." <<  ui::BLINK << ".\n" <<  ui::RESET; }
+void TV::diagnostic() const { cout <<  ui::RED << "[TV]" << ui::RESET << "  Base diagnostic:\n| Battery level: " << battery_level_ << "%\n" << "| Channel: " << current_channel_ << "\n"; }
 
-void Phone::make_call(const string& number) { cout << RED << "[Phone]" << RESET << "  calling " << number << ".." << BLINK << ".\n" << RESET; }
+void Phone::make_call(const string& number) { cout <<  ui::RED << "[Phone]" <<  ui::RESET << "  calling " << number << ".." <<  ui::BLINK << ".\n" <<  ui::RESET; }
 
 void CellPhone::turn_on() {
-    cout << RED << "[CellPhone]" << RESET << "  Searching for network.." << BLINK << ".\n" << RESET;
+    cout <<  ui::RED << "[CellPhone]" <<  ui::RESET << "  Searching for network.." <<  ui::BLINK << ".\n" <<  ui::RESET;
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
-    cout << RED << "[CellPhone]" << RESET << "  Connected\n";
+    cout <<  ui::RED << "[CellPhone]" <<  ui::RESET << "  Connected\n";
 }
 void CellPhone::make_call(const string& number) {
-    if (battery_level_ < 5) { cout << RED << "[CellPhone]" << RESET << "  Battery level is low!\n"; return; }
-    cout << RED << "[CellPhone]"<< RESET <<"  Using SIM to make a call " << number << "...\n";
+    if (battery_level_ < 5) { cout <<  ui::RED << "[CellPhone]" <<  ui::RESET << "  Battery level is low!\n"; return; }
+    cout <<  ui::RED << "[CellPhone]"<<  ui::RESET <<"  Using SIM to make a call " << number << "...\n";
     battery_level_ -= 2;
 }
 
-void SmartDoorLock::turn_on() { cout << RED << "[SmartLock]" << RESET << "  Lock is activated, waiting for a key\n"; }
+void SmartDoorLock::turn_on() { cout <<  ui::RED << "[SmartLock]" <<  ui::RESET << "  Lock is activated, waiting for a key\n"; }
 void SmartDoorLock::unlock(const string& input_hash) const {
-    if (input_hash == rfid_key_hash_) cout << RED << "[SmartLock]" << RESET << "  Door is unlocked\n";
-    else cout << RED << "[SmartLock]" << RESET << "  ALERT! bad hash\n";
+    if (input_hash == rfid_key_hash_) cout <<  ui::RED << "[SmartLock]" <<  ui::RESET << "  Door is unlocked\n";
+    else cout <<  ui::RED << "[SmartLock]" <<  ui::RESET << "  ALERT! bad hash\n";
 }
