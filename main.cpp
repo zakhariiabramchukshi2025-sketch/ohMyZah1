@@ -28,19 +28,20 @@ using std::vector;
 
 
 void tabAutocomplite(string& currentInput) {
-    if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "") {
+    if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "") { // TODO: check for the whole list
         cout << "\n[No suggestions]" << flush;
-        std::cout << "\a" << std::flush;
+        std::cout << "\a" << std::flush; // alert sound
         return;
     }
 
-    vector<string> options;
+
+    vector<string> options; // tmp for parameters and arguments, in future - every class will have it's own list or maybee even tabAutocomplete method TODO: global vector
     
     if (trim(currentInput) == "command") {
         options.push_back("option_1");
         options.push_back("option_2");
         options.push_back("option_2");
-        options.push_back("option_2");
+        options.push_back("option_233");
         
     }
     
@@ -48,7 +49,7 @@ void tabAutocomplite(string& currentInput) {
         options.push_back("info");
         options.push_back("--version");
         options.push_back("--update");
-        options.push_back("--upgrade");
+        options.push_back("--upgrade");а
         
     }
     

@@ -35,3 +35,6 @@ command option_2
 command option_2
 clear
 q!
+ command
+!
+q!
