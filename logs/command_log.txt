@@ -46,3 +46,9 @@ iot tv
 iot lock 
 iot turn_on_all
 q!
+iot tv turn_off turn_off 
+q!
+iot camera turn_on turn_on    
+iot l lo
+iot l lockq!
+q!

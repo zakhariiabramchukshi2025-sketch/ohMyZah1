@@ -30,29 +30,69 @@ using std::vector;
 
 
 void tabAutocomplite(string& currentInput) {
-    string cleanedInput = trim(currentInput);
-    vector <string> options;
     
-    // =======================================================
-    // МАГІЯ ХЕШ-ТАБЛИЦІ (O(1) швидкість)
-    // =======================================================
+    string cleanedInput = trim(currentInput);
+    vector<string> options;
+    string prefix_to_keep = cleanedInput;
+    
     auto it = cmd_dict::tree.find(cleanedInput);
     
     if (it != cmd_dict::tree.end()) {
         options = it->second;
-    } else {
-        cout << "\n[No suggestions]" << flush;
-        std::cout << "\a" << std::flush; // alert sound
-        return;
+        prefix_to_keep = cleanedInput + (cleanedInput.empty() ? "" : " ");
     }
     
     
     
-    if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "iot" && trim(currentInput) != "") { // TODO: check for the whole list
+    else {
+        size_t last_space = cleanedInput.find_last_of(' ');
+        string context = "";
+        string partial_word = cleanedInput;
+
+        if (last_space != string::npos) {
+            context = cleanedInput.substr(0, last_space);
+            partial_word = cleanedInput.substr(last_space + 1);
+        }
+
+        auto ctx_it = cmd_dict::tree.find(context);
+        if (ctx_it != cmd_dict::tree.end()) {
+            for (const string& opt : ctx_it->second) {
+                if (opt.find(partial_word) == 0) {
+                    options.push_back(opt);
+                }
+            }
+        }
+        prefix_to_keep = (last_space != string::npos) ? context + " " : "";
+    }
+
+    if (options.empty()) {
         cout << "\n[No suggestions]" << flush;
-        std::cout << "\a" << std::flush; // alert sound
+        std::cout << "\a" << std::flush;
         return;
     }
+    
+    
+////    string cleanedInput = trim(currentInput);
+////    vector <string> options;
+////
+////
+////    auto it = cmd_dict::tree.find(cleanedInput);
+////
+////    if (it != cmd_dict::tree.end()) {
+////        options = it->second;
+////    } else {
+////        cout << "\n[No suggestions]" << flush;
+////        std::cout << "\a" << std::flush; // alert sound
+////        return;
+////    }
+////
+//
+//
+//    if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "iot" && trim(currentInput) != "") { // TODO: check for the whole list
+//        cout << "\n[No suggestions]" << flush;
+//        std::cout << "\a" << std::flush; // alert sound
+//        return;
+//    }
 
     
 
