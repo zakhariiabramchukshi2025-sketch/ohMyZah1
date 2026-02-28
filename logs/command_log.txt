@@ -38,3 +38,7 @@ q!
  command
 !
 q!
+iot setup
+ll
+clear
+q!

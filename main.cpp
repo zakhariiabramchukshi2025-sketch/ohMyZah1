@@ -28,7 +28,7 @@ using std::vector;
 
 
 void tabAutocomplite(string& currentInput) {
-    if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "") { // TODO: check for the whole list
+    if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "iot" && trim(currentInput) != "") { // TODO: check for the whole list
         cout << "\n[No suggestions]" << flush;
         std::cout << "\a" << std::flush; // alert sound
         return;
@@ -49,7 +49,7 @@ void tabAutocomplite(string& currentInput) {
         options.push_back("info");
         options.push_back("--version");
         options.push_back("--update");
-        options.push_back("--upgrade");а
+        options.push_back("--upgrade");
         
     }
     
@@ -64,13 +64,18 @@ void tabAutocomplite(string& currentInput) {
         options.push_back("teka_8");
     }
     
-    
+    else if (trim(currentInput) == "iot") {
+            options.push_back("setup");
+            options.push_back("info");
+            options.push_back("turn_on");
+    }
+
     if (trim(currentInput) == "") {
         options.push_back("command");
         options.push_back("pyvo");
         options.push_back("cd");
+        options.push_back("iot");
     }
-    
     
     
     int selected = 0; // selected by user index
