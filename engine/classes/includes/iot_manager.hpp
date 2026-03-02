@@ -184,3 +184,17 @@ public:
     void turn_on() override;
     void unlock(const std::string& input_hash) const;
 };
+
+
+
+class IoTManager {
+private:
+    std::vector<std::unique_ptr<Device>> iot_park_;
+
+public:
+    IoTManager() = default;
+    ~IoTManager() = default;
+
+    void init_devices();
+    bool execute_command(const std::string& input);
+};

@@ -12,6 +12,7 @@
 #include "engine/classes/includes/iot_manager.hpp" // for
 
 
+
 #include <termios.h>
 #include <unistd.h>
 
@@ -25,8 +26,6 @@ using std::endl;
 using std::string;
 using std::flush;
 using std::vector;
-
-
 
 
 void tabAutocomplite(string& currentInput) {
@@ -72,75 +71,9 @@ void tabAutocomplite(string& currentInput) {
     }
     
     
-////    string cleanedInput = trim(currentInput);
-////    vector <string> options;
-////
-////
-////    auto it = cmd_dict::tree.find(cleanedInput);
-////
-////    if (it != cmd_dict::tree.end()) {
-////        options = it->second;
-////    } else {
-////        cout << "\n[No suggestions]" << flush;
-////        std::cout << "\a" << std::flush; // alert sound
-////        return;
-////    }
-////
-//
-//
-//    if (trim(currentInput) != "command" && trim(currentInput) != "pyvo" && trim(currentInput) != "cd" && trim(currentInput) != "iot" && trim(currentInput) != "") { // TODO: check for the whole list
-//        cout << "\n[No suggestions]" << flush;
-//        std::cout << "\a" << std::flush; // alert sound
-//        return;
-//    }
-
     
-
-//    vector<string> options; // tmp for parameters and arguments, in future - every class will have it's own list or maybee even tabAutocomplete method TODO: global vector
-//
-//    if (trim(currentInput) == "command") {
-//        options.push_back("option_1");
-//        options.push_back("option_2");
-//        options.push_back("option_2");
-//        options.push_back("option_233");
-//
-//    }
-//
-//    else if (trim(currentInput) == "pyvo") {
-//        options.push_back("info");
-//        options.push_back("--version");
-//        options.push_back("--update");
-//        options.push_back("--upgrade");
-//
-//    }
-//
-//    else if (trim(currentInput) == "cd") {
-//        options.push_back("teka_1");
-//        options.push_back("teka_2");
-//        options.push_back("teka_3");
-//        options.push_back("teka_4");
-//        options.push_back("teka_5");
-//        options.push_back("teka_6");
-//        options.push_back("teka_7");
-//        options.push_back("teka_8");
-//    }
-//
-//    else if (trim(currentInput) == "iot") {
-//            options.push_back("setup");
-//            options.push_back("info");
-//            options.push_back("turn_on");
-//    }
-//
-//    if (trim(currentInput) == "") {
-//        options.push_back("command");
-//        options.push_back("pyvo");
-//        options.push_back("cd");
-//        options.push_back("iot");
-//    }
-//
-//
     int selected = 0; // selected by user index
-    
+        
     while (true) {
         cout << "\n";
     
@@ -267,22 +200,77 @@ string readLine(string prompt) {
 
 
 int main() {
+    // Запускаємо твоє візуальне інтро
     ui::intro();
 
-    while (true) { // realy bad piece of code TODO: chane this to something more universal
-        string input = readLine(ui::YELLOW + "-> " + ui::CYAN + system_func::get_path_manual() + ui::YELLOW + " > " + ui::RESET);
+    // =======================================================
+    // ЗАПУСК ООП-ДВІЖКА (Створюємо всі девайси ДО циклу)
+    // =======================================================
+    IoTManager iot_system;
+    iot_system.init_devices();
 
-        if (input == "exit" || checkForSpecials(input) == 1) {
+    // Головний цикл консолі
+    while (true) {
+        // 1. Читаємо рядок (з твоїм кастомним кольоровим шляхом)
+        string input = readLine(ui::YELLOW + "-> " + ui::CYAN + system_func::get_path_manual() + ui::YELLOW + " > " + ui::RESET);
+        
+        // 2. Очищаємо ввід від зайвих пробілів (щоб уникнути багів з " iot ")
+        string clean_input = trim(input);
+
+        // Якщо юзер просто натиснув Enter - йдемо на нове коло
+        if (clean_input.empty()) {
+            continue;
+        }
+
+        // 3. Системні перевірки (Вихід)
+        if (clean_input == "exit" || checkForSpecials(clean_input) == 1) {
             break;
         }
 
-        if (checkForSpecials(input) == 2) {
-            cout << "admin rights is yours master" << endl;
+        // Перевірка на адміна (a!)
+        if (checkForSpecials(clean_input) == 2) {
+            cout << "admin rights is yours master\n";
+            continue; // Команда виконана, йдемо далі
         }
 
-        // Логіка звичайної команди
-        youEnteredFunc(input);
+        // =======================================================
+        // 4. ПАСТКА ДЛЯ IOT-КОМАНД (Нова архітектура)
+        // =======================================================
+        // Якщо рядок починається з "iot", менеджер сам його розбере,
+        // виконає потрібний метод класу і поверне true.
+        if (iot_system.execute_command(clean_input)) {
+            continue; // Менеджер все зробив, пропускаємо стару логіку!
+        }
+
+        // =======================================================
+        // 5. ЗВИЧАЙНІ КОМАНДИ (Стара архітектура)
+        // =======================================================
+        // Якщо менеджер повернув false (це не "iot..."),
+        // віддаємо команду твоїй старій функції (cd, pyvo, command і тд)
+        youEnteredFunc(clean_input);
     }
 
     return 0;
 }
+
+//
+//int main() {
+//    ui::intro();
+//
+//    while (true) { // realy bad piece of code TODO: chane this to something more universal
+//        string input = readLine(ui::YELLOW + "-> " + ui::CYAN + system_func::get_path_manual() + ui::YELLOW + " > " + ui::RESET);
+//
+//        if (input == "exit" || checkForSpecials(input) == 1) {
+//            break;
+//        }
+//
+//        if (checkForSpecials(input) == 2) {
+//            cout << "admin rights is yours master" << endl;
+//        }
+//
+//        // Логіка звичайної команди
+//        youEnteredFunc(input);
+//    }
+//
+//    return 0;
+//}

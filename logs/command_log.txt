@@ -52,3 +52,20 @@ iot camera turn_on turn_on
 iot l lo
 iot l lockq!
 q!
+iot camera
+iot camera turn_on
+iot turn_on_all
+iot turn_on_all turn_on_all
+!
+q!
+iot camera turn_on
+clear
+ cd
+clear
+clear
+clear
+q!
+iot lock status
+iot turn_on_all turn_on_all
+clear
+q!

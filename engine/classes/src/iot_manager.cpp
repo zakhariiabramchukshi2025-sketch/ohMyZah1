@@ -1,4 +1,9 @@
 #include "../includes/iot_manager.hpp"
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <unordered_map>
+#include <functional>
 
 
 using std::cout;
@@ -11,6 +16,16 @@ using std::setw;
 using std::numeric_limits;
 using std::streamsize;
 using std::exception;
+
+
+using std::make_unique;
+using std::vector;
+using std::stringstream;
+using std::unordered_map;
+using std::function;
+
+
+
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~~~~~METADATA~~~~~~~~~~~~
@@ -242,4 +257,103 @@ void SmartDoorLock::turn_on() { cout <<  ui::RED << "[SmartLock]" <<  ui::RESET 
 void SmartDoorLock::unlock(const string& input_hash) const {
     if (input_hash == rfid_key_hash_) cout <<  ui::RED << "[SmartLock]" <<  ui::RESET << "  Door is unlocked\n";
     else cout <<  ui::RED << "[SmartLock]" <<  ui::RESET << "  ALERT! bad hash\n";
+}
+
+
+
+
+void IoTManager::init_devices() {
+    iot_park_.push_back(make_unique<SecurityCamera>()); // 0
+    iot_park_.push_back(make_unique<TV>());             // 1
+    iot_park_.push_back(make_unique<SmartDoorLock>());  // 2
+    iot_park_.push_back(make_unique<CellPhone>());      // 3
+
+    iot_park_[0]->get_nameplate().set_model("Parrot Sec-Cam v1");
+    iot_park_[1]->get_nameplate().set_model("Lviv AI Smart TV");
+    iot_park_[2]->get_nameplate().set_model("Polytech Room 811b Lock");
+    iot_park_[3]->get_nameplate().set_model("Secure CellPhone X");
+}
+
+bool IoTManager::execute_command(const string& input) {
+    if (input.rfind("iot", 0) != 0) return false;
+
+    vector<string> tokens;
+    stringstream ss(input);
+    string word;
+    while (ss >> word) tokens.push_back(word);
+
+    if (tokens.size() < 2) {
+        cout << "[-] Incomplete command. Press TAB for suggestions.\n";
+        return true;
+    }
+
+    if (tokens[1] == "info") {
+        cout << "\n[System] Scanning connected IoT devices...\n";
+        for (size_t i = 0; i < iot_park_.size(); i++) {
+            cout << "\n>>> DEVICE ID: [" << i << "] <<<";
+            iot_park_[i]->display_info();
+        }
+        return true;
+    }
+    else if (tokens[1] == "turn_on_all") {
+        cout << "\n[System] Sending Power-ON signal to all devices...\n";
+        for (auto& device : iot_park_) device->turn_on();
+        return true;
+    }
+    
+    
+    if (tokens.size() >= 3) {
+        string target_device = tokens[1];
+        string action = tokens[2];
+
+        static const unordered_map<string, int> device_map = {
+            {"camera", 0}, {"tv", 1}, {"lock", 2}, {"phone", 3}
+        };
+
+        auto dev_it = device_map.find(target_device);
+        if (dev_it == device_map.end()) {
+            cout << "[-] ERROR: Target device '" << target_device << "' not found.\n";
+            return true;
+        }
+
+        Device* dev = iot_park_[dev_it->second].get();
+
+        static const unordered_map<string, function<void(Device*)>> common_actions = {
+            {"turn_on", [](Device* d) { d->turn_on(); }},
+            {"turn_off", [](Device* d) { d->turn_off(); }},
+            {"diagnostic", [](Device* d) { d->diagnostic(); }},
+            {"setup", [](Device* d) { d->interactive_setup(); }}
+        };
+
+        auto act_it = common_actions.find(action);
+        if (act_it != common_actions.end()) {
+            act_it->second(dev);
+            return true;
+        }
+
+        if (target_device == "camera") {
+            auto* cam = dynamic_cast<SecurityCamera*>(dev);
+            if (action == "stream") cam->start_stream();
+            else if (action == "take_photo") cam->take_photo();
+            else if (action == "night_vision") cam->toggle_night_vision();
+            else cout << "[-] Unknown camera action: " << action << "\n";
+        }
+        else if (target_device == "lock") {
+            auto* lock = dynamic_cast<SmartDoorLock*>(dev);
+            if (action == "unlock") {
+                string hash;
+                cout << "Enter RFID Hash to unlock: ";
+                cin >> hash;
+                lock->unlock(hash);
+            }
+            else cout << "[-] Unknown lock action: " << action << "\n";
+        }
+        else {
+            cout << "[-] Action '" << action << "' is not supported for " << target_device << ".\n";
+        }
+        return true;
+    }
+
+    cout << "[-] Unknown IoT command format.\n";
+    return true;
 }
