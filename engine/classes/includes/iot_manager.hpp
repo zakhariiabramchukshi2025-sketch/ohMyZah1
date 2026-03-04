@@ -187,9 +187,6 @@ public:
 
 
 
-
-
-
 class IoTManager {
 private:
     std::vector<std::unique_ptr<Device>> iot_park_;
