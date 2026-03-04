@@ -29,7 +29,6 @@ using std::vector;
 
 
 void tabAutocomplite(string& currentInput) {
-    
     string cleanedInput = trim(currentInput);
     vector<string> options;
     string prefix_to_keep = cleanedInput;
@@ -221,12 +220,12 @@ int main() {
         
         if (checkForSpecials(clean_input) == 2) {
             cout << "admin rights is yours master\n";
-            continue; // Команда виконана, йдемо далі
+            continue;
         }
 
         
         if (iot_system.execute_command(clean_input)) {
-            continue; // Менеджер все зробив, пропускаємо стару логіку!
+            continue;
         }
 
         youEnteredFunc(clean_input);

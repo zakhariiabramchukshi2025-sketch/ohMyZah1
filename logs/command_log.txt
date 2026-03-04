@@ -69,3 +69,8 @@ iot lock status
 iot turn_on_all turn_on_all
 clear
 q!
+sys status
+sys status status
+iot tv turn_off turn_off
+iot tv diagnostic 
+iot camera turn_on turn_on
