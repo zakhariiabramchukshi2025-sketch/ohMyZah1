@@ -111,8 +111,14 @@ class IVideoStreamer {
 public:
     virtual ~IVideoStreamer() = default;
     virtual void start_stream() = 0;
+    virtual void end_stream() = 0;
     virtual void take_photo() = 0;
 };
+
+
+
+
+
 
 class Device : public IRemoteControl {
 private:
